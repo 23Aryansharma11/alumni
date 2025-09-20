@@ -1,8 +1,16 @@
 "use server";
+
 import { db } from "@/db";
 import { auth } from "@/lib/auth";
+import { user as userSchema } from "@/db/schema/auth-schema";
+
+// Next apis
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+// types
+import { type CompleteProfileFormValues } from "./components/complete-profile-form";
+import { eq } from "drizzle-orm";
 
 export async function isUserProfileComplete(): Promise<boolean> {
   // check if user has all the required info
@@ -23,6 +31,32 @@ export async function isUserProfileComplete(): Promise<boolean> {
   }
   // 3. Check logged in user data
   if (!user.passoutYear || user.passoutYear <= 0) return false;
-
   return true;
+}
+
+export async function completeUserProfile(data: CompleteProfileFormValues) {
+  const userInfo = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!userInfo) {
+    redirect("/auth");
+  }
+
+  const userId = userInfo.user.id;
+
+  const updatedUser = await db
+    .update(userSchema)
+    .set({
+      passoutYear: data.passoutYear,
+      course: data.course,
+      branch: data.branch,
+      updatedAt: new Date(),
+    })
+    .where(eq(userSchema.id, userId))
+    .returning();
+
+  if (updatedUser.length <= 0) {
+    redirect("/auth");
+  }
+  return updatedUser[0].passoutYear;
 }

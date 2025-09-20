@@ -16,7 +16,7 @@ const AuthPage = () => {
   };
   return (
     <section className="w-full h-[100dvh] flex flex-col justify-center items-center text-center px-4 bg-gray-50">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">
+      <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
         Welcome to the Alumni Portal
       </h1>
       <p className="text-lg text-gray-600 mb-8 max-w-md">
