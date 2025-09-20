@@ -1,8 +1,15 @@
-export default function RootLayout({
+import { isUserProfileComplete } from "@/features/auth/actions";
+import { redirect } from "next/navigation";
+
+export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // check if user has all the required info
-  return <section>{children}</section>;
+  const isProfileComplete = await isUserProfileComplete();
+  if (isProfileComplete) {
+    return <section>{children}</section>;
+  } else {
+    redirect("/complete-profile");
+  }
 }

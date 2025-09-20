@@ -1,4 +1,28 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  integer,
+  pgEnum,
+} from "drizzle-orm/pg-core";
+
+// Define enums
+export const courseEnum = pgEnum("course", ["BTECH", "MTECH", "MBA"]);
+export const branchEnum = pgEnum("branch", [
+  "CSE",
+  "IT",
+  "ECE",
+  "EEE",
+  "ME",
+  "CE",
+
+  "Finance",
+  "Marketing",
+  "HumanResources",
+  "Operations",
+  "BusinessAnalytics",
+]);
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -6,6 +30,11 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+
+  passoutYear: integer("passout_year").default(0),
+  course: courseEnum("course"),
+  branch: branchEnum("branch"),
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
