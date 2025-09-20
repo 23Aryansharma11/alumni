@@ -55,8 +55,14 @@ export async function completeUserProfile(data: CompleteProfileFormValues) {
     .where(eq(userSchema.id, userId))
     .returning();
 
-  if (updatedUser.length <= 0) {
+  if (!updatedUser.length) {
     redirect("/auth");
   }
-  return updatedUser[0].passoutYear;
+
+  // return only plain data you want to share
+  return {
+    passoutYear: updatedUser[0].passoutYear,
+    course: updatedUser[0].course,
+    branch: updatedUser[0].branch,
+  };
 }
