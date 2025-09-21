@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
-import { TanStackProvider } from "@/components/tanstack-provider"; // your client wrapper
+import { TanStackProvider } from "@/components/tanstack-provider";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
