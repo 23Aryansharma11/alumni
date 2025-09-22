@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TanStackProvider>
-            <main>{children}</main>
+            <main className="w-full h-[100dvh] overflow-hidden">{children}</main>
             <Toaster />
           </TanStackProvider>
         </ThemeProvider>
